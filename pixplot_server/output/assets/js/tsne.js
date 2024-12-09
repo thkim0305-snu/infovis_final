@@ -1,4 +1,4 @@
-// version: VERSION_NUMBER
+// version: 1.0.0
 
 /**
 *

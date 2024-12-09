@@ -1,3 +1,5 @@
-python pixplot/pixplot.py --images "../data/val2017/*.jpg" --metadata "../data/image_vectors_filename.json|../data/text_vectors_captions.json" --image_vectors "../data/image_vectors_coco_val2017.npy" --text_vectors "../data/text_vectors_coco_val2017.npy"
-
+# python pixplot/pixplot.py --images "../data/val2017/*.jpg" --metadata "../data/image_vectors_filename.json|../data/text_vectors_captions.json" --image_vectors "../data/image_vectors_coco_val2017_llava.npy" --text_vectors "../data/text_vectors_coco_val2017_llava.npy"
+# python pixplot/pixplot.py --images "../data/val2017/*.jpg" --metadata "../data/image_vectors_filename.json|../data/text_vectors_captions.json" --image_vectors "../data/image_vectors_coco_val2017.npy" --text_vectors "../data/text_vectors_coco_val2017.npy"
+# python pixplot/pixplot.py --images "../data/val2017/*.jpg" --metadata "../data/image_vectors_filename.json|../data/text_vectors_captions.json" --image_vectors "../data/image_vectors_coco_val2017_vit_L.npy" --text_vectors "../data/text_vectors_coco_val2017_vit_L.npy"
+python pixplot/pixplot.py --images "../data/val2017/*.jpg" --metadata "../data/image_vectors_filename.json|../data/text_vectors_captions.json" --image_vectors "../data/image_vectors_coco_val2017_evaclip_h.npy" --text_vectors "../data/text_vectors_coco_val2017_evaclip_h.npy"
 # python pixplot/pixplot.py --images "../data/outputs/images/*.jpg" --metadata "../data/outputs/metadata.csv" --image_vectors "../data/outputs/image_vectors.npy"

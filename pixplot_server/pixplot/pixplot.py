@@ -100,7 +100,7 @@ config = {
     "use_cache": True,
     "encoding": "utf8",
     "min_cluster_size": 20,
-    "max_clusters": 10,
+    "max_clusters": 20,
     "atlas_size": 2048,
     "cell_size": 32,
     "lod_cell_height": 128,
@@ -263,8 +263,8 @@ def load_input_files(**kwargs):
 
     # load the metadata csv file
     all_metadata = get_metadata_list(**kwargs)
-    vecs = np.load(kwargs["image_vectors"])[:500]
-    text_vecs = np.load(kwargs["text_vectors"])[:500]
+    vecs = np.load(kwargs["image_vectors"])#[:500]
+    text_vecs = np.load(kwargs["text_vectors"])#[:500]
     
     vecs = np.concatenate((vecs, text_vecs))
 
@@ -279,11 +279,11 @@ def load_input_files(**kwargs):
         if metadata.endswith('.jpg'):
             path = image_root_path / metadata#["filename"]
 
-            img = Image(path, **{"metadata": {'id':str(idx),'desc':metadata}, "vec": vec})
+            img = Image(path, **{"metadata": {'id':str(idx),'desc':"", 'label_':'image'}, "vec": vec})
             all_data.append(img)
         else:
             caption = metadata
-            text = Text(caption, **{"metadata": {'id':str(idx),'desc':caption}, "vec": vec})
+            text = Text(caption, **{"metadata": {'id':str(idx),'desc':caption, 'label_':'text'}, "vec": vec})
             all_data.append(text)
         # path = image_root_path / metadata["filename"]
         # metadata['id'] = 'idxx_'+str(idx)
@@ -447,10 +447,12 @@ def get_metadata_list(**kwargs):
     #     l.extend(meta_data)
     with open(metadata_list[0],'r') as fp:
         meta_data = json.load(fp)
-    l.extend(meta_data[:500])
+    l.extend(meta_data)#[:500])
     with open(metadata_list[1],'r') as fp:
         meta_data = json.load(fp)
-    l.extend(meta_data[:500])
+        print(len(meta_data))
+    # breakpoint()
+    l.extend(meta_data)#[:500])
     return l
 
 
@@ -511,17 +513,17 @@ def write_metadata(metadata, **kwargs):
         )
 
     # create filename label mapping file
-    filenames_label = {md["id"] + '.jpg': '0' for md in metadata}
+    filenames_label = {md["id"] + '.jpg': md['label_'] for md in metadata}
     out_path = os.path.join(out_dir, "labels", "filenames_label.json")
     write_json(out_path, filenames_label, **kwargs)
 
     # id_to_label.json
-    unique_labels = {md for md in ['0']}
+    unique_labels = {md for md in ['image', 'text']}
     unique_labels = sorted(unique_labels)
     id_to_label = {idx: l for idx, l in enumerate(unique_labels)}
 
     # Always add a remove label at the end so a user can flag an image for removal
-    id_to_label[max(id_to_label) + 1] = "Remove"
+    # id_to_label[max(id_to_label) + 1] = "Remove"
 
     out_path = os.path.join(out_dir, "labels", "id_to_label.json")
     write_json(out_path, id_to_label, **kwargs)
@@ -557,7 +559,7 @@ def write_metadata(metadata, **kwargs):
         base_colors.append(rgb)
 
     colors = [c for c in product([0, 128 / 255, 192 / 255, 255 / 255], repeat=3)]
-    random.shuffle(colors)  # set seed in commandline args for repeatability
+    # random.shuffle(colors)  # set seed in commandline args for repeatability
     colors = base_colors + colors
     id_to_color = {idx: colors[idx] for idx in id_to_label.keys()}
     out_path = os.path.join(out_dir, "labels", "id_to_color.json")
@@ -598,9 +600,9 @@ def get_manifest(**kwargs):
     point_sizes = {}
     point_sizes["min"] = 0
     point_sizes["grid"] = 1 / math.ceil(len(kwargs["image_paths"]) ** (1 / 2))
-    point_sizes["max"] = point_sizes["grid"] * 1.2
+    point_sizes["max"] = point_sizes["grid"] * 2.0
     point_sizes["scatter"] = point_sizes["grid"] * 0.2
-    point_sizes["initial"] = point_sizes["scatter"]
+    point_sizes["initial"] = point_sizes["scatter"] * 5
     point_sizes["categorical"] = point_sizes["grid"] * 0.6
     point_sizes["geographic"] = point_sizes["grid"] * 0.025
     # fetch the date distribution data for point sizing
@@ -722,7 +724,7 @@ def get_atlas_data(**kwargs):
             atlas[y : y + kwargs["cell_size"], x : x + v] = cell_data
             # find the size of the cell in the lod canvas
             # lod_data = i.resize_to_max(kwargs["lod_cell_height"])
-            lod_data = np.random.normal(0, 1, (kwargs["lod_cell_height"], kwargs['lod_cell_height'], 3))
+            lod_data = np.random.normal(0, 1, (int(kwargs["lod_cell_height"]/4), int(kwargs['lod_cell_height']/4), 3))
             h, w, _ = lod_data.shape  # h,w,colors in lod-cell sized image `i`
             positions.append(
                 {
@@ -1550,7 +1552,7 @@ def load_image(image_path):
 class Image:
     def __init__(self, *args, **kwargs):
         self.path = args[0]
-        self.original = load_image(self.path).resize((128,128))
+        self.original = load_image(self.path)#.resize((128,128))
         self.metadata = kwargs["metadata"]  # ["metadata"] if kwargs["metadata"] else {}
         self.vec = kwargs["vec"]
         self.valid = False

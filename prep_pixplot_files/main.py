@@ -15,6 +15,8 @@ import json
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 
+from eva_clip import create_model_and_transforms, get_tokenizer
+
 # def train_model(
 #     meta_df: pd.DataFrame,
 #     data_fldr: str,
@@ -106,7 +108,11 @@ def main(
     #         collate_fn=collate_fn,
     #     )
 
-    model, preprocess = clip.load("ViT-B/32", device=device)
+    # model, preprocess = clip.load("ViT-L/14", device=device)
+    
+    model, _, preprocess = create_model_and_transforms("EVA02-CLIP-bigE-14-plus" , "eva_clip", force_custom_clip=True)
+    # breakpoint()
+    model = model.to(device)
     model.eval()
     # strip off the classification head (for a resnet50)
     # as we just want the backbone outputs
@@ -129,28 +135,28 @@ def main(
     print(f'len texts: {len(captions)}')
     # whole dataset with eval
     # preds_ds = MetadataDataset(meta_data['annotations'], img_fldr, preprocess)
-    img_ds = ImgDataset(img_names, img_fldr, preprocess)
-    dl = DataLoader(
-        img_ds,
-        batch_size=64,
-        shuffle=False,
-        collate_fn=collate_fn,
-        num_workers=6,
-    )
-    preds_img_features = None
-    for idx, images in enumerate(tqdm(dl)):
-        images = images.to(device)
-        with torch.no_grad():
-            batch_output = model.encode_image(images)
+    # img_ds = ImgDataset(img_names, img_fldr, preprocess)
+    # dl = DataLoader(
+    #     img_ds,
+    #     batch_size=64,
+    #     shuffle=False,
+    #     collate_fn=collate_fn,
+    #     num_workers=6,
+    # )
+    # preds_img_features = None
+    # for idx, images in enumerate(tqdm(dl)):
+    #     images = images.to(device)
+    #     with torch.no_grad():
+    #         batch_output = model.encode_image(images)
         
-        batch_features = batch_output.cpu().numpy()
-        if preds_img_features is None:
-            preds_img_features = batch_features
-        else:
-            preds_img_features = np.concatenate((preds_img_features, batch_features), axis=0)
-    np.save(data_fldr / "image_vectors_coco_val2017.npy", preds_img_features)
-    with open(data_fldr / "image_vectors_filename.json", 'w') as fp:
-        json.dump(img_names, fp)
+    #     batch_features = batch_output.cpu().numpy()
+    #     if preds_img_features is None:
+    #         preds_img_features = batch_features
+    #     else:
+    #         preds_img_features = np.concatenate((preds_img_features, batch_features), axis=0)
+    # np.save(data_fldr / "image_vectors_coco_val2017_evaclip_h.npy", preds_img_features)
+    # with open(data_fldr / "image_vectors_filename.json", 'w') as fp:
+    #     json.dump(img_names, fp)
     
     txt_ds = TxtDataset(captions)
     dl = DataLoader(
@@ -171,7 +177,7 @@ def main(
             preds_txt_features = text_features
         else:
             preds_txt_features = np.concatenate((preds_txt_features, text_features), axis=0)
-    np.save(data_fldr / "text_vectors_coco_val2017.npy", preds_txt_features)
+    np.save(data_fldr / "text_vectors_coco_val2017_evaclip_h.npy", preds_txt_features)
     with open(data_fldr / "text_vectors_captions.json", 'w') as fp:
         json.dump(captions, fp)
 

@@ -26,7 +26,7 @@ pip install -r ./environment/requirements.txt
 Then run the code to create the image_vectors.npy file (using the quickstart coco files as an example - unzip the data/outputs_trained.zip first):
 
 ```bash
- python main.py --data_fldr ../data/outputs --img_fldr ../data/outputs/images
+ python main_llava.py --data_fldr ../data --img_fldr ../data/val2017
  ```
 
 The image_vectors.npy file will be saved to the location specified in the --data_fldr command line switch.
