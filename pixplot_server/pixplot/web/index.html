@@ -11,7 +11,7 @@
     <meta name='author' content='Yale Digital Humanities Lab'>
   </head>
   <body>
-    <!-- version: VERSION_NUMBER -->
+    <!-- version: 1.0.0 -->
     <script type='x-shader/x-vertex' id='vertex-shader'>
     /**
     * The vertex shader's main() function must define `gl_Position`,
@@ -392,8 +392,10 @@
           <div id="file-select-container" class='no-highlight'>
             <label for="manifest-file">Choose Manifest File:</label>
             <select id="manifest-file">
-              <option value="manifest.json">LLaVA</option>
-              <option value="manifest-clipvit.json">CLIP ViT</option>
+              <option value="manifest_llava.json">LLaVA</option>
+              <option value="manifest-clipvit_B.json">CLIP ViT-B</option>
+              <option value="manifest-clipvit_L.json">CLIP ViT-L</option>
+              <option value="manifest-evaclip_H.json">EVA CLIP-H</option>
               <!-- Add more options as needed -->
             </select>
             <button id="load-button" disabled>Load</button>
