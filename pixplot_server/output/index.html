@@ -389,36 +389,32 @@
       </div> -->
       <div id='header-controls'>
         <div id='header-controls-top' class='no-highlight'>
-          <div id="file-select-container" class='no-highlight'>
-            <label for="manifest-file">Choose Manifest File:</label>
-            <select id="manifest-file">
-              <option value="manifest_llava.json">LLaVA</option>
-              <option value="manifest-clipvit_B.json">CLIP ViT-B</option>
-              <option value="manifest-clipvit_L.json">CLIP ViT-L</option>
-              <option value="manifest-evaclip_H.json">EVA CLIP-H</option>
-              <!-- Add more options as needed -->
-            </select>
-            <button id="load-button" disabled>Load</button>
-          </div>
-          <div id='image-search-container'>
-            <input id='image-search' type='text' placeholder='Search for an image'>
-            <img id='image-search-icon' src='assets/images/icons/search-icon.svg'>
-            <div id='typeahead-container'></div>
-          </div>
-          <div id='date-container'>
-            <div id='date-label' class='settings-label'>Date</div>
-            <div id='date-slider'></div>
-          </div>
-          <div id='filters-desktop'></div>
-          <div id='layout-icons'>
-            <!-- <img class='layout-icon' id='download-updates-icon' src='assets/images/icons/download-icon.svg' /> -->
-            <!-- <img class='layout-icon' id='layout-alphabetic' src='assets/images/icons/az-layout.svg' /> -->
-            <!-- <img class='layout-icon' id='layout-umap' src='assets/images/icons/scatter-layout.svg' /> -->
-            <!-- <img class='layout-icon conditional' id='layout-date' src='assets/images/icons/date-layout.svg' />
-            <img class='layout-icon conditional' id='layout-categorical' src='assets/images/icons/categorical-layout.svg' />
-            <img class='layout-icon conditional' id='layout-geographic' src='assets/images/icons/geographic-layout.svg' />
-            <img class='layout-icon conditional' id='layout-custom' src='assets/images/icons/custom-layout.svg' /> -->
-            <img id='settings-icon' src='assets/images/icons/gear-icon.svg' />
+          <div id="file-select-container" class='row'>
+            <div class="col-1">
+              <label for="manifest-file"><font color="#FFFFFF">Choose Manifest File:</font></label><br>
+              <select id="manifest-file">
+                <option value="manifest_llava.json">LLaVA</option>
+                <option value="manifest-clipvit_B.json">CLIP ViT-B</option>
+                <option value="manifest-clipvit_L.json">CLIP ViT-L</option>
+                <option value="manifest-evaclip_H.json">EVA CLIP-H</option>
+                <!-- Add more options as needed -->
+              </select>
+            </div>
+            &nbsp&nbsp
+            <div class="col-1">
+              <button id="load-button" disabled>Load</button>
+            </div>
+            <div id='image-search-container' class="col-1">
+              <input id='image-search' type='text' placeholder='Search for an image'>
+              <img id='image-search-icon' src='assets/images/icons/search-icon.svg'>
+            </div>
+            <div id='date-container' class="col-1">
+              <div id='date-label' class='settings-label'>Date</div>
+              <div id='date-slider'></div>
+            </div>
+            <div id='layout-icons' class="col-1">
+              <img id='settings-icon' src='assets/images/icons/gear-icon.svg' />
+            </div>
           </div>
         </div>
         <div id='header-controls-bottom' class='no-highlight'>
