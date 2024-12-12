@@ -8,7 +8,7 @@
     cd pixplot_server
     pip install -r requirements.txt
     ```
-2. Download [output.tar](https://drive.google.com/file/d/1WMKdb_AhsgBzLEGB59-mgDg_Gan3yrcP/view?usp=drive_link) and unzip it inside pixplot_server:
+2. Download [output.tar](https://drive.google.com/file/d/1YyLdUGmTnPqtmD6pxiT4Adw51UQlSFSq/view?usp=drive_link) and unzip it inside pixplot_server:
     ```bash
     tar -xvf output.tar
     ```
